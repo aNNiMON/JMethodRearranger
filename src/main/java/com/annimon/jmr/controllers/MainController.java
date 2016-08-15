@@ -4,6 +4,9 @@ import com.annimon.jmr.MethodRearranger;
 import com.annimon.jmr.models.Method;
 import com.annimon.jmr.views.MethodCell;
 import com.github.javaparser.ast.CompilationUnit;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.util.Comparator;
 import java.util.List;
@@ -43,9 +46,19 @@ public class MainController implements Initializable {
         panelMethods.disableProperty().bind(Bindings.isEmpty(lvMethods.getItems()));
         lvMethods.setCellFactory(param -> new MethodCell());
 
-        taSource.setText("class Main {\n\n    public void method1() {}\n\n"
-                + "    public void test() {}\n\n"
-                + "    public void method2() {\n        // comment\n    }\n }");
+        try (InputStream is = getClass().getResourceAsStream("/example.txt")) {
+            final ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            final byte[] buffer = new byte[1024];
+            int readed;
+            while ( (readed = is.read(buffer, 0, buffer.length)) != -1 ) {
+                baos.write(buffer, 0, readed);
+            }
+            taSource.setText(baos.toString("UTF-8"));
+        } catch (IOException ex) {
+            taSource.setText("class Main {\n\n    public void method1() {}\n\n"
+                    + "    public void test() {}\n\n"
+                    + "    public void method2() {\n        // comment\n    }\n }");
+        }
     }
 
     @FXML
