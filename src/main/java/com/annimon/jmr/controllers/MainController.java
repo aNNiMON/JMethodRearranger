@@ -2,13 +2,13 @@ package com.annimon.jmr.controllers;
 
 import com.annimon.jmr.MethodRearranger;
 import com.annimon.jmr.models.Method;
+import static com.annimon.jmr.models.MethodComparators.*;
 import com.annimon.jmr.views.MethodCell;
 import com.github.javaparser.ast.CompilationUnit;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
-import java.util.Comparator;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
@@ -71,11 +71,8 @@ public class MainController implements Initializable {
 
     @FXML
     private void handleSortAsc(ActionEvent event) {
-        final Comparator<Method> byName = Comparator.comparing(m -> m.getMethod().getName());
-        final Comparator<Method> byParametersCount = Comparator.comparing(m -> m.getMethod().getParameters().size());
-
         final List<Method> sortedMethods = lvMethods.getItems().stream()
-                .sorted(byName.thenComparing(byParametersCount))
+                .sorted(byName().thenComparing(byParametersCount()))
                 .collect(Collectors.toList());
         lvMethods.getItems().clear();
         lvMethods.getItems().addAll(sortedMethods);
