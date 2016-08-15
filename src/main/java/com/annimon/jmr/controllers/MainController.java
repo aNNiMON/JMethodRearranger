@@ -7,15 +7,8 @@ import com.annimon.jmr.views.MethodCell;
 import com.annimon.jmr.views.Notification;
 import com.annimon.jmr.visitors.ClassNameVisitor;
 import com.github.javaparser.ast.CompilationUnit;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 import java.net.URL;
-import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
@@ -57,19 +50,12 @@ public class MainController implements Initializable {
         panelMethods.disableProperty().bind(Bindings.isEmpty(lvMethods.getItems()));
         lvMethods.setCellFactory(param -> new MethodCell());
 
-        try (InputStream is = getClass().getResourceAsStream("/example.txt")) {
-            final ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            final byte[] buffer = new byte[1024];
-            int readed;
-            while ( (readed = is.read(buffer, 0, buffer.length)) != -1 ) {
-                baos.write(buffer, 0, readed);
-            }
-            taSource.setText(baos.toString("UTF-8"));
-        } catch (IOException ex) {
-            taSource.setText("class Main {\n\n    public void method1() {}\n\n"
+        final String content = IOUtil.resourceToString("/example.txt")
+                .filter(p -> !p.isEmpty())
+                .orElse("class Main {\n\n    public void method1() {}\n\n"
                     + "    public void test() {}\n\n"
                     + "    public void method2() {\n        // comment\n    }\n }");
-        }
+        taSource.setText(content);
     }
 
     public void setPrimaryStage(Stage primaryStage) {
@@ -115,12 +101,8 @@ public class MainController implements Initializable {
         final File file = chooser.showSaveDialog(primaryStage);
         if (file == null) return;
 
-        try (OutputStream os = new FileOutputStream(file);
-             OutputStreamWriter writer = new OutputStreamWriter(os, StandardCharsets.UTF_8)) {
-            writer.write(cu.toString());
-            Notification.success("Source code writed to " + file.getAbsolutePath());
-        } catch (IOException ioe) {
-            Notification.error("Unable to write file: " + file.getAbsolutePath());
-        }
+        IOUtil.stringToFile(file, cu.toString(),
+                f -> Notification.success("Source code writed to " + f.getAbsolutePath()),
+                f -> Notification.error("Unable to write file: " + f.getAbsolutePath()));
     }
 }
