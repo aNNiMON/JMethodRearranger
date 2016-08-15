@@ -28,7 +28,12 @@
             </HBox>
          </top>
          <bottom>
-            <Button fx:id="btnSave" maxWidth="+Infinity" mnemonicParsing="false" onAction="#handleSave" text="Save" BorderPane.alignment="CENTER" />
+             <HBox maxWidth="+Infinity" BorderPane.alignment="CENTER">
+               <children>
+                  <Button fx:id="btnShow" maxWidth="+Infinity" mnemonicParsing="false" onAction="#handleShow" text="Show" HBox.hgrow="ALWAYS" />
+                  <Button fx:id="btnSave" maxWidth="+Infinity" mnemonicParsing="false" onAction="#handleSave" text="Save" HBox.hgrow="ALWAYS" />
+               </children>
+            </HBox>
          </bottom>
       </BorderPane>
   </items>

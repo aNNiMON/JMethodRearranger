@@ -4,11 +4,17 @@ import com.annimon.jmr.MethodRearranger;
 import com.annimon.jmr.models.Method;
 import static com.annimon.jmr.models.MethodComparators.*;
 import com.annimon.jmr.views.MethodCell;
+import com.annimon.jmr.views.Notification;
 import com.github.javaparser.ast.CompilationUnit;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
@@ -21,6 +27,8 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
 public class MainController implements Initializable {
 
@@ -40,6 +48,8 @@ public class MainController implements Initializable {
     private ListView<Method> lvMethods;
 
     private MethodRearranger rearranger;
+
+    private Stage primaryStage;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -61,6 +71,10 @@ public class MainController implements Initializable {
         }
     }
 
+    public void setPrimaryStage(Stage primaryStage) {
+        this.primaryStage = primaryStage;
+    }
+
     @FXML
     private void handleParse(ActionEvent event) {
         rearranger = MethodRearranger.from(taSource.getText());
@@ -79,8 +93,28 @@ public class MainController implements Initializable {
     }
 
     @FXML
+    private void handleShow(ActionEvent event) {
+        final CompilationUnit cu = rearranger.modifyMethods(lvMethods.getItems());
+        taSource.setText(cu.toString());
+        taSource.selectAll();
+    }
+
+    @FXML
     private void handleSave(ActionEvent event) {
         final CompilationUnit cu = rearranger.modifyMethods(lvMethods.getItems());
-        System.out.println(cu);
+        final FileChooser chooser = new FileChooser();
+        chooser.setInitialDirectory(new File(System.getProperty("user.dir")));
+        chooser.setInitialFileName("Main.java");
+        chooser.setTitle("Save source code as");
+        final File file = chooser.showSaveDialog(primaryStage);
+        if (file == null) return;
+
+        try (OutputStream os = new FileOutputStream(file);
+             OutputStreamWriter writer = new OutputStreamWriter(os, StandardCharsets.UTF_8)) {
+            writer.write(cu.toString());
+            Notification.success("Source code writed to " + file.getAbsolutePath());
+        } catch (IOException ioe) {
+            Notification.error("Unable to write file: " + file.getAbsolutePath());
+        }
     }
 }

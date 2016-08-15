@@ -1,5 +1,6 @@
 package com.annimon.jmr;
 
+import com.annimon.jmr.controllers.MainController;
 import java.io.IOException;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -18,6 +19,8 @@ public class Main extends Application {
         Scene scene = new Scene(loader.load());
         primaryStage.setTitle("JMethodRearranger");
         primaryStage.setScene(scene);
+        MainController controller = loader.getController();
+        controller.setPrimaryStage(primaryStage);
         primaryStage.show();
     }
 }
