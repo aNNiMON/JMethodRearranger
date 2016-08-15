@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<SplitPane fx:id="root" dividerPositions="0.5" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="307.0" prefWidth="552.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.annimon.jmr.controllers.MainController">
+  <items>
+      <BorderPane>
+         <center>
+            <TextArea fx:id="taSource" BorderPane.alignment="CENTER" />
+         </center>
+         <bottom>
+            <Button fx:id="btnParse" maxWidth="+Infinity" mnemonicParsing="false" onAction="#handleParse" text="Parse" BorderPane.alignment="CENTER" />
+         </bottom>
+      </BorderPane>
+      <BorderPane fx:id="panelMethods">
+         <center>
+            <ListView fx:id="lvMethods" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+         </center>
+         <top>
+            <HBox maxWidth="+Infinity" BorderPane.alignment="CENTER">
+               <children>
+                  <Button fx:id="btnSortAsc" mnemonicParsing="false" onAction="#handleSortAsc" text="Sort A-Z" />
+               </children>
+            </HBox>
+         </top>
+         <bottom>
+            <Button fx:id="btnSave" maxWidth="+Infinity" mnemonicParsing="false" onAction="#handleSave" text="Save" BorderPane.alignment="CENTER" />
+         </bottom>
+      </BorderPane>
+  </items>
+</SplitPane>
