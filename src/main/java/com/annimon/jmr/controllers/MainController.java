@@ -5,6 +5,7 @@ import com.annimon.jmr.models.Method;
 import static com.annimon.jmr.models.MethodComparators.*;
 import com.annimon.jmr.views.MethodCell;
 import com.annimon.jmr.views.Notification;
+import com.annimon.jmr.visitors.ClassNameVisitor;
 import com.github.javaparser.ast.CompilationUnit;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -102,9 +103,14 @@ public class MainController implements Initializable {
     @FXML
     private void handleSave(ActionEvent event) {
         final CompilationUnit cu = rearranger.modifyMethods(lvMethods.getItems());
+        String className = ClassNameVisitor.getClassName(cu);
+        if (className == null || className.isEmpty()) {
+            className = "Main";
+        }
+
         final FileChooser chooser = new FileChooser();
         chooser.setInitialDirectory(new File(System.getProperty("user.dir")));
-        chooser.setInitialFileName("Main.java");
+        chooser.setInitialFileName(className + ".java");
         chooser.setTitle("Save source code as");
         final File file = chooser.showSaveDialog(primaryStage);
         if (file == null) return;
