@@ -16,6 +16,12 @@ public final class Sort {
         this.comparator = comparator;
     }
 
+    public Sort(String name, Comparator<Method> comparator, boolean enabled) {
+        this.name = name;
+        this.comparator = comparator;
+        setEnabled(enabled);
+    }
+
     public BooleanProperty enabledProperty() {
         return enabledProperty;
     }

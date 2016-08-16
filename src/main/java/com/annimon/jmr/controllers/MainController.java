@@ -11,6 +11,7 @@ import com.annimon.jmr.visitors.ClassNameVisitor;
 import com.github.javaparser.ast.CompilationUnit;
 import java.io.File;
 import java.net.URL;
+import java.util.Comparator;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
@@ -56,6 +57,23 @@ public class MainController implements Initializable {
         panelSorts.disableProperty().bind(panelMethods.disableProperty());
         lvMethods.setCellFactory(param -> new MethodCell());
         lvSorts.setCellFactory(param -> new SortCell());
+        lvSorts.getItems().addAll(
+                new Sort("public access", byAccessPublic(), true),
+                new Sort("static", byModifierStatic(), true),
+                new Sort("final", byModifierFinal()),
+                new Sort("name", byName(), true),
+                new Sort("parameters count", byParametersCount()),
+                new Sort("throws count", byThrowsCount()),
+                new Sort("protected access", byAccessProtected()),
+                new Sort("default access", byAccessDefault()),
+                new Sort("private access", byAccessPrivate()),
+                new Sort("abstract", byModifierAbstract()),
+                new Sort("native", byModifierNative()),
+                new Sort("synchronized", byModifierSynchronized()),
+                new Sort("name reversed", byNameReversed()),
+                new Sort("parameters count reversed", byParametersCountReversed()),
+                new Sort("throws count reversed", byThrowsCountReversed())
+        );
 
         final String content = IOUtil.resourceToString("/example.txt")
                 .filter(p -> !p.isEmpty())
@@ -79,16 +97,18 @@ public class MainController implements Initializable {
 
     @FXML
     private void handleSortAsc(ActionEvent event) {
-        final List<Method> sortedMethods = lvMethods.getItems().stream()
-                .sorted(byName().thenComparing(byParametersCount()))
-                .collect(Collectors.toList());
-        lvMethods.getItems().clear();
-        lvMethods.getItems().addAll(sortedMethods);
+        for (Sort item : lvSorts.getItems()) {
+            item.setEnabled(item.getComparator() == byName());
+        }
     }
 
     @FXML
     private void handleSort(ActionEvent event) {
-        
+        final List<Method> sortedMethods = lvMethods.getItems().stream()
+                .sorted(build(lvSorts.getItems()))
+                .collect(Collectors.toList());
+        lvMethods.getItems().clear();
+        lvMethods.getItems().addAll(sortedMethods);
     }
 
     @FXML
