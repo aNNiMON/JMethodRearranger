@@ -11,7 +11,7 @@ import javafx.scene.input.TransferMode;
 
 public final class ListCellUtils {
 
-    public static void setArrangable(ListCell cell, DataFormat dataFormat) {
+    public static <T> void setArrangable(ListCell<T> cell, DataFormat dataFormat) {
         final Predicate<DragEvent> hasItemInDragBoard = event ->
                 event.getGestureSource() != cell && event.getDragboard().hasContent(dataFormat);
 
@@ -48,10 +48,10 @@ public final class ListCellUtils {
             final Dragboard db = event.getDragboard();
             boolean success = false;
             if (db.hasContent(dataFormat)) {
-                final ObservableList items = cell.getListView().getItems();
+                final ObservableList<T> items = cell.getListView().getItems();
                 final int fromIndex = (int) db.getContent(dataFormat);
                 int toIndex = items.indexOf(cell.getItem());
-                final Object obj = items.remove(fromIndex);
+                final T obj = items.remove(fromIndex);
                 items.add(toIndex, obj);
                 success = true;
             }

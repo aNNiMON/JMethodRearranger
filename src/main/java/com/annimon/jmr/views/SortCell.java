@@ -7,12 +7,14 @@ import javafx.util.StringConverter;
 
 public final class SortCell extends CheckBoxListCell<Sort> {
 
+    private static final DataFormat DATA_FORMAT = new DataFormat(Sort.class.getName());
+
     public SortCell() {
         init();
     }
 
     private void init() {
-        ListCellUtils.setArrangable(this, new DataFormat(Sort.class.getName()));
+        ListCellUtils.setArrangable(this, DATA_FORMAT);
 
         setConverter(new StringConverter<Sort>() {
             @Override

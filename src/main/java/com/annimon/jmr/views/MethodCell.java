@@ -6,12 +6,14 @@ import javafx.scene.input.DataFormat;
 
 public final class MethodCell extends ListCell<Method> {
 
+    private static final DataFormat DATA_FORMAT = new DataFormat(Method.class.getName());
+    
     public MethodCell() {
         init();
     }
 
     private void init() {
-        ListCellUtils.setArrangable(this, new DataFormat(Method.class.getName()));
+        ListCellUtils.setArrangable(this, DATA_FORMAT);
     }
 
     @Override
