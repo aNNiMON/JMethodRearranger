@@ -90,6 +90,7 @@ public class MainController implements Initializable {
     @FXML
     private void handleParse(ActionEvent event) {
         rearranger = MethodRearranger.from(taSource.getText());
+        lvMethods.getItems().clear();
         lvMethods.getItems().addAll(rearranger.methods()
                 .collect(Collectors.toList())
         );
