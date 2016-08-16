@@ -122,6 +122,7 @@ public class MainController implements Initializable {
         final CompilationUnit cu = rearranger.modifyMethods(lvMethods.getItems());
         taSource.setText(cu.toString());
         taSource.selectAll();
+        taSource.requestFocus();
     }
 
     @FXML
