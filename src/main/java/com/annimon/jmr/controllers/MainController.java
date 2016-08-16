@@ -100,10 +100,15 @@ public class MainController implements Initializable {
         for (Sort item : lvSorts.getItems()) {
             item.setEnabled(item.getComparator() == byName());
         }
+        sortMethods();
     }
 
     @FXML
     private void handleSort(ActionEvent event) {
+        sortMethods();
+    }
+
+    private void sortMethods() {
         final List<Method> sortedMethods = lvMethods.getItems().stream()
                 .sorted(build(lvSorts.getItems()))
                 .collect(Collectors.toList());
