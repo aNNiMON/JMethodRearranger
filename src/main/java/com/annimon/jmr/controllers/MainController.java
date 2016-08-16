@@ -3,8 +3,10 @@ package com.annimon.jmr.controllers;
 import com.annimon.jmr.MethodRearranger;
 import com.annimon.jmr.models.Method;
 import static com.annimon.jmr.models.MethodComparators.*;
+import com.annimon.jmr.models.Sort;
 import com.annimon.jmr.views.MethodCell;
 import com.annimon.jmr.views.Notification;
+import com.annimon.jmr.views.SortCell;
 import com.annimon.jmr.visitors.ClassNameVisitor;
 import com.github.javaparser.ast.CompilationUnit;
 import java.io.File;
@@ -30,7 +32,7 @@ public class MainController implements Initializable {
     private SplitPane root;
     
     @FXML
-    private BorderPane panelMethods;
+    private BorderPane panelMethods, panelSorts;
 
     @FXML
     private TextArea taSource;
@@ -41,6 +43,9 @@ public class MainController implements Initializable {
     @FXML
     private ListView<Method> lvMethods;
 
+    @FXML
+    private ListView<Sort> lvSorts;
+
     private MethodRearranger rearranger;
 
     private Stage primaryStage;
@@ -48,7 +53,9 @@ public class MainController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         panelMethods.disableProperty().bind(Bindings.isEmpty(lvMethods.getItems()));
+        panelSorts.disableProperty().bind(panelMethods.disableProperty());
         lvMethods.setCellFactory(param -> new MethodCell());
+        lvSorts.setCellFactory(param -> new SortCell());
 
         final String content = IOUtil.resourceToString("/example.txt")
                 .filter(p -> !p.isEmpty())
@@ -77,6 +84,11 @@ public class MainController implements Initializable {
                 .collect(Collectors.toList());
         lvMethods.getItems().clear();
         lvMethods.getItems().addAll(sortedMethods);
+    }
+
+    @FXML
+    private void handleSort(ActionEvent event) {
+        
     }
 
     @FXML

@@ -6,7 +6,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<SplitPane fx:id="root" dividerPositions="0.5" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="307.0" prefWidth="552.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.annimon.jmr.controllers.MainController">
+<SplitPane fx:id="root" dividerPositions="0.35,0.75" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="307.0" prefWidth="552.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.annimon.jmr.controllers.MainController">
   <items>
       <BorderPane>
          <center>
@@ -18,7 +18,20 @@
       </BorderPane>
       <BorderPane fx:id="panelMethods">
          <center>
-            <ListView fx:id="lvMethods" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+            <ListView fx:id="lvMethods" BorderPane.alignment="CENTER" />
+         </center>
+         <bottom>
+             <HBox maxWidth="+Infinity" BorderPane.alignment="CENTER">
+               <children>
+                  <Button fx:id="btnShow" maxWidth="+Infinity" mnemonicParsing="false" onAction="#handleShow" text="Show" HBox.hgrow="ALWAYS" />
+                  <Button fx:id="btnSave" maxWidth="+Infinity" mnemonicParsing="false" onAction="#handleSave" text="Save" HBox.hgrow="ALWAYS" />
+               </children>
+            </HBox>
+         </bottom>
+      </BorderPane>
+      <BorderPane fx:id="panelSorts">
+         <center>
+            <ListView fx:id="lvSorts" BorderPane.alignment="CENTER" />
          </center>
          <top>
             <HBox maxWidth="+Infinity" BorderPane.alignment="CENTER">
@@ -28,12 +41,7 @@
             </HBox>
          </top>
          <bottom>
-             <HBox maxWidth="+Infinity" BorderPane.alignment="CENTER">
-               <children>
-                  <Button fx:id="btnShow" maxWidth="+Infinity" mnemonicParsing="false" onAction="#handleShow" text="Show" HBox.hgrow="ALWAYS" />
-                  <Button fx:id="btnSave" maxWidth="+Infinity" mnemonicParsing="false" onAction="#handleSave" text="Save" HBox.hgrow="ALWAYS" />
-               </children>
-            </HBox>
+             <Button fx:id="btnSort" maxWidth="+Infinity" mnemonicParsing="false" onAction="#handleSort" text="Sort" />
          </bottom>
       </BorderPane>
   </items>
