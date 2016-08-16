@@ -2,6 +2,7 @@ package com.annimon.jmr.models;
 
 import com.github.javaparser.ast.body.MethodDeclaration;
 import java.util.Comparator;
+import java.util.List;
 import java.util.function.Function;
 
 public final class MethodComparators {
@@ -15,6 +16,16 @@ public final class MethodComparators {
 
     public static Comparator<Method> byParametersCount() {
         return BY_PARAMETERS_COUNT;
+    }
+
+    public static Comparator<Method> build(List<Sort> sorts) {
+        Comparator<Method> comparator = Comparator.naturalOrder();
+        for (Sort sort : sorts) {
+            if (sort.isEnabled()) {
+                comparator = comparator.thenComparing(sort.getComparator());
+            }
+        }
+        return comparator;
     }
 
     private static <T extends Comparable<? super T>> Comparator<Method> comparator(

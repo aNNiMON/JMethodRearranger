@@ -2,7 +2,7 @@ package com.annimon.jmr.models;
 
 import com.github.javaparser.ast.body.MethodDeclaration;
 
-public final class Method {
+public final class Method implements Comparable<Method> {
 
     private final MethodDeclaration method;
 
@@ -21,5 +21,10 @@ public final class Method {
     @Override
     public String toString() {
         return getDeclaration();
+    }
+
+    @Override
+    public int compareTo(Method o) {
+        return 0;
     }
 }
