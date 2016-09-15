@@ -62,6 +62,7 @@ public class MainController implements Initializable {
                 new Sort("static", byModifierStatic(), true),
                 new Sort("final", byModifierFinal()),
                 new Sort("name", byName(), true),
+                new Sort("type", byType()),
                 new Sort("parameters count", byParametersCount()),
                 new Sort("throws count", byThrowsCount()),
                 new Sort("protected access", byAccessProtected()),
@@ -71,6 +72,7 @@ public class MainController implements Initializable {
                 new Sort("native", byModifierNative()),
                 new Sort("synchronized", byModifierSynchronized()),
                 new Sort("name reversed", byNameReversed()),
+                new Sort("type reversed", byTypeReversed()),
                 new Sort("parameters count reversed", byParametersCountReversed()),
                 new Sort("throws count reversed", byThrowsCountReversed())
         );

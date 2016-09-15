@@ -2,6 +2,7 @@ package com.annimon.jmr;
 
 import com.annimon.jmr.controllers.MainController;
 import java.io.IOException;
+import java.util.stream.Stream;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;

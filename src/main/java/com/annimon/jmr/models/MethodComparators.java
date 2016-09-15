@@ -11,11 +11,13 @@ import java.util.function.IntFunction;
 public final class MethodComparators {
 
     private static final Comparator<Method> BY_NAME = comparator(MethodDeclaration::getName);
-    private static final Comparator<Method> BY_NAME_REVERSED = comparator(MethodDeclaration::getName).reversed();
+    private static final Comparator<Method> BY_NAME_REVERSED = BY_NAME.reversed();
+    private static final Comparator<Method> BY_TYPE = comparator(m -> m.getType().toStringWithoutComments());
+    private static final Comparator<Method> BY_TYPE_REVERSED = BY_TYPE.reversed();
     private static final Comparator<Method> BY_PARAMETERS_COUNT = comparator(m -> m.getParameters().size());
-    private static final Comparator<Method> BY_PARAMETERS_COUNT_REVERSED = comparator(m -> m.getParameters().size()).reversed();
+    private static final Comparator<Method> BY_PARAMETERS_COUNT_REVERSED = BY_PARAMETERS_COUNT.reversed();
     private static final Comparator<Method> BY_THROWS_COUNT = comparator(m -> m.getThrows().size());
-    private static final Comparator<Method> BY_THROWS_COUNT_REVERSED = comparator(m -> m.getThrows().size()).reversed();
+    private static final Comparator<Method> BY_THROWS_COUNT_REVERSED = BY_THROWS_COUNT.reversed();
 
     private static final Comparator<Method> BY_ACCESS_PUBLIC = comparatorAccess(a -> a == AccessSpecifier.PUBLIC).reversed();
     private static final Comparator<Method> BY_ACCESS_PROTECTED = comparatorAccess(a -> a == AccessSpecifier.PROTECTED).reversed();
@@ -34,6 +36,14 @@ public final class MethodComparators {
 
     public static Comparator<Method> byNameReversed() {
         return BY_NAME_REVERSED;
+    }
+
+    public static Comparator<Method> byType() {
+        return BY_TYPE;
+    }
+
+    public static Comparator<Method> byTypeReversed() {
+        return BY_TYPE_REVERSED;
     }
 
     public static Comparator<Method> byParametersCount() {
